@@ -3,7 +3,7 @@ using AdaLightNetShell.Controls;
 
 namespace AdaLightNetShell.LedServices
 {
-    public sealed class LedMatrixPreview : ILedService
+    public sealed class LedMatrixPreviewService : ILedService
     {
         public AdaLedArray LedArray { get; set; }
 

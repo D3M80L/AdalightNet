@@ -9,7 +9,7 @@ namespace AdaLightNetShell
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LedMatrixPreview _ledMatrixPreview = new LedMatrixPreview();
+        private LedMatrixPreviewService _ledMatrixPreviewService = new LedMatrixPreviewService();
         private ArduinoAdalightService _arduinoAdalightService = new ArduinoAdalightService();
         private bool _displayPreview;
         private int _selectedGenerator;
@@ -26,8 +26,8 @@ namespace AdaLightNetShell
             var wrapService = new WrapService();
             wrapService.Add(_arduinoAdalightService);
 
-            _ledMatrixPreview.LedArray = LedArrayPreview;
-            wrapService.Add(_ledMatrixPreview);
+            _ledMatrixPreviewService.LedArray = LedArrayPreview;
+            wrapService.Add(_ledMatrixPreviewService);
 
             _processor = new Processor();
             _processor.Run(wrapService);
@@ -70,9 +70,9 @@ namespace AdaLightNetShell
             set
             {
                 _displayPreview = value;
-                _ledMatrixPreview.Enable = _displayPreview;
+                _ledMatrixPreviewService.Enable = _displayPreview;
 
-                LedArrayPreview.Visibility = _ledMatrixPreview.Enable ? Visibility.Visible : Visibility.Collapsed;
+                LedArrayPreview.Visibility = _ledMatrixPreviewService.Enable ? Visibility.Visible : Visibility.Collapsed;
             }
         }
     }

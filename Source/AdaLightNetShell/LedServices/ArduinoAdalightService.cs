@@ -9,17 +9,16 @@ namespace AdaLightNetShell.LedServices
     public class ArduinoAdalightService : ILedService
     {
         private SerialPort _serialPort;
-        private byte[] _adaHeader;
+        private static byte[] _adaHeader;
 
         public static string PortName { get; set; }
+
+        public string LastMessage { get; private set; }
 
         static ArduinoAdalightService()
         {
             PortName = "COM3";
-        }
 
-        public ArduinoAdalightService()
-        {
             _adaHeader = new byte[] 
             {
                 (byte)'A',
@@ -29,15 +28,32 @@ namespace AdaLightNetShell.LedServices
                 (byte)((LedConstants.LED_COUNT - 1) & 0xff),
                 0
             };
-            _adaHeader[5] = (byte)(_adaHeader[3] ^ _adaHeader[4] ^ 0x55);
+            _adaHeader[5] = (byte)(_adaHeader[3] ^ _adaHeader[4] ^ 0x55);            
+        }
 
-            _serialPort = new SerialPort(PortName, 115200);
-            _serialPort.Open();
+        public ArduinoAdalightService()
+        {
+            try
+            {
+                _serialPort = new SerialPort(PortName, 115200);
+                _serialPort.Open();
+            }
+            catch (Exception ex)
+            {
+                LastMessage = ex.Message;
+            }
         }
         public void Display(byte[] ledArray)
         {
-            _serialPort.Write(_adaHeader, 0, 6);
-            _serialPort.Write(ledArray, 0, LedConstants.LED_ARRAY_SIZE);
+            try
+            {
+                _serialPort.Write(_adaHeader, 0, 6);
+                _serialPort.Write(ledArray, 0, LedConstants.LED_ARRAY_SIZE);
+            }
+            catch (Exception ex)
+            {
+                LastMessage = ex.Message;
+            }
         }
     }
 }
