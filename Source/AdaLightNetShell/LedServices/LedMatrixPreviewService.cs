@@ -13,23 +13,30 @@ namespace AdaLightNetShell.LedServices
         {
             if (Enable)
             {
-                LedArray.Dispatcher.Invoke(() =>
+                try
                 {
-                    try
+                    LedArray.Dispatcher.Invoke(() =>
                     {
-                        int arrayHeader = 0;
-                        for (byte i = 0; i < LedConstants.LED_COUNT; i++)
+                        try
                         {
-                            LedArray.SetLedColor(i, ledArray[arrayHeader], ledArray[++arrayHeader],
-                                ledArray[++arrayHeader]);
-                            ++arrayHeader;
+                            int arrayHeader = 0;
+                            for (byte i = 0; i < LedConstants.LED_COUNT; i++)
+                            {
+                                LedArray.SetLedColor(i, ledArray[arrayHeader], ledArray[++arrayHeader],
+                                    ledArray[++arrayHeader]);
+                                ++arrayHeader;
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        // TODO:
-                    }
-                });
+                        catch (Exception ex)
+                        {
+                            // TODO:
+                        }
+                    });
+                }
+                catch
+                {
+                    // TODO:
+                }
             }
         }
     }

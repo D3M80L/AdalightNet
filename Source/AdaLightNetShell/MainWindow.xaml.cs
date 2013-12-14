@@ -1,4 +1,5 @@
 ﻿using AdaLightNetShell.Generators;
+using AdaLightNetShell.Infrastructure;
 using AdaLightNetShell.LedServices;
 using System.Windows;
 
@@ -31,6 +32,8 @@ namespace AdaLightNetShell
 
             _processor = new Processor();
             _processor.Run(wrapService);
+
+            MinimizeToTray.Enable(this);
         }
 
         public int SelectedGenerator
