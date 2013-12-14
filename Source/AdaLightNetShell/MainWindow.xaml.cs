@@ -64,6 +64,22 @@ namespace AdaLightNetShell
                     _processor.Generator = generator;
                     return;
                 }
+
+                if (_selectedGenerator == 3)
+                {
+                    var generator = new SolidColorGenerator();
+                    generator.Initialize();
+                    _processor.Generator = generator;
+                    return;
+                }
+
+                if (_selectedGenerator == 4)
+                {
+                    var generator = new RandomColorsGenerator();
+                    generator.Initialize();
+                    _processor.Generator = generator;
+                    return;
+                }
             }
         }
 

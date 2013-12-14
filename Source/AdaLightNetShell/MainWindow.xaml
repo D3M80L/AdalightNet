@@ -23,6 +23,8 @@
                             <ComboBoxItem>None</ComboBoxItem>
                             <ComboBoxItem>Rainbow</ComboBoxItem>
                             <ComboBoxItem>Screen capture</ComboBoxItem>
+                            <ComboBoxItem>Solid color</ComboBoxItem>
+                            <ComboBoxItem>Random color</ComboBoxItem>
                         </ComboBox>
                     </GroupBox>
                 </StackPanel>

@@ -91,6 +91,8 @@
     </ApplicationDefinition>
     <Compile Include="Generators\ILedGenerator.cs" />
     <Compile Include="Generators\RainbowGenerator.cs" />
+    <Compile Include="Generators\RandomColorsGenerator.cs" />
+    <Compile Include="Generators\SolidColorGenerator.cs" />
     <Compile Include="Infrastructure\MinimizeToTray.cs" />
     <Compile Include="LedServices\ArduinoAdalightService.cs" />
     <Compile Include="LedServices\ILedService.cs" />
