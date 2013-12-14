@@ -2,8 +2,36 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:AdaLightNetShell.Controls"
-        Title="MainWindow" Height="350" Width="525">
+        Title="NET adalight client " Height="350" Width="525">
     <Grid>
-        <local:AdaLedMatrix x:Name="LedArray" />
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <StackPanel>
+                    <GroupBox Header="Generator">
+                        <ComboBox SelectedIndex="{Binding SelectedGenerator}">
+                            <ComboBoxItem>None</ComboBoxItem>
+                            <ComboBoxItem>Rainbow</ComboBoxItem>
+                            <ComboBoxItem>Screen capture</ComboBoxItem>
+                        </ComboBox>
+                    </GroupBox>
+                </StackPanel>
+            </Grid>
+            <local:AdaLedArray 
+                Grid.Row="0"
+                Grid.Column="1"
+                x:Name="LedArrayPreview" />
+        </Grid>
+
+        <CheckBox Content="Display preview" Grid.Column="0" IsChecked="{Binding DisplayPreview}" Grid.Row="1"/>
     </Grid>
 </Window>

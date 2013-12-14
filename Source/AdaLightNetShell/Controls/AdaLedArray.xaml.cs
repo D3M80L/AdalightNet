@@ -17,9 +17,9 @@ using AdaLightNetShell;
 namespace AdaLightNetShell.Controls
 {
     /// <summary>
-    /// Interaction logic for AdaLedMatrix.xaml
+    /// Interaction logic for AdaLedArray.xaml
     /// </summary>
-    public partial class AdaLedMatrix : UserControl
+    public partial class AdaLedArray : UserControl
     {
         private Rectangle[] _ledRectangles = new Rectangle[LedConstants.LED_COUNT];
 
@@ -52,7 +52,7 @@ namespace AdaLightNetShell.Controls
             new [] { 5,5 },
         };
 
-        public AdaLedMatrix()
+        public AdaLedArray()
         {
             InitializeComponent();
 

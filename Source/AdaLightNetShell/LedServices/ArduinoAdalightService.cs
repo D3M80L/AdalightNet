@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace AdaLightNetShell.LedServices
 {
-    public class ArduinoAdalight : ILedService
+    public class ArduinoAdalightService : ILedService
     {
         private SerialPort _serialPort;
         private byte[] _adaHeader;
 
-        public ArduinoAdalight()
+        public static string PortName { get; set; }
+
+        static ArduinoAdalightService()
+        {
+            PortName = "COM3";
+        }
+
+        public ArduinoAdalightService()
         {
             _adaHeader = new byte[] 
             {
@@ -24,7 +31,7 @@ namespace AdaLightNetShell.LedServices
             };
             _adaHeader[5] = (byte)(_adaHeader[3] ^ _adaHeader[4] ^ 0x55);
 
-            _serialPort = new SerialPort("COM3", 115200);
+            _serialPort = new SerialPort(PortName, 115200);
             _serialPort.Open();
         }
         public void Display(byte[] ledArray)

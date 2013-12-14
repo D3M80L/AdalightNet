@@ -1,19 +1,6 @@
 ﻿using AdaLightNetShell.Generators;
 using AdaLightNetShell.LedServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AdaLightNetShell
 {
@@ -22,8 +9,14 @@ namespace AdaLightNetShell
     /// </summary>
     public partial class MainWindow : Window
     {
+        private LedMatrixPreview _ledMatrixPreview = new LedMatrixPreview();
+        private ArduinoAdalightService _arduinoAdalightService = new ArduinoAdalightService();
+        private bool _displayPreview;
+        private int _selectedGenerator;
+        private Processor _processor;
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
 
             var ledGenerator = new SlimDxScreenGenerator();
@@ -31,11 +24,56 @@ namespace AdaLightNetShell
             ledGenerator.Initialize();
             
             var wrapService = new WrapService();
-            wrapService.Add(new ArduinoAdalight());
-            wrapService.Add(new LedMatrixPreview() { LedMatrix = LedArray });
+            wrapService.Add(_arduinoAdalightService);
 
-            var handler = new Processor();
-            handler.Run(ledGenerator, wrapService);
+            _ledMatrixPreview.LedArray = LedArrayPreview;
+            wrapService.Add(_ledMatrixPreview);
+
+            _processor = new Processor();
+            _processor.Run(wrapService);
+        }
+
+        public int SelectedGenerator
+        {
+            get { return _selectedGenerator; }
+            set
+            {
+                _selectedGenerator = value;
+
+                if (_selectedGenerator == 0)
+                {
+                    _processor.Generator = null;
+                    return;
+                }
+
+                if (_selectedGenerator == 1)
+                {
+                    var generator = new RainbowGenerator();
+                    generator.Initialize();
+                    _processor.Generator = generator;
+                    return;
+                }
+
+                if (_selectedGenerator == 2)
+                {
+                    var generator = new SlimDxScreenGenerator();
+                    generator.Initialize();
+                    _processor.Generator = generator;
+                    return;
+                }
+            }
+        }
+
+        public bool DisplayPreview
+        {
+            get { return _displayPreview; }
+            set
+            {
+                _displayPreview = value;
+                _ledMatrixPreview.Enable = _displayPreview;
+
+                LedArrayPreview.Visibility = _ledMatrixPreview.Enable ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
     }
 }

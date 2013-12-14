@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using SlimDX.Direct3D9;
+using System.Threading;
 
 namespace AdaLightNetShell.Generators
 {
@@ -25,15 +26,20 @@ namespace AdaLightNetShell.Generators
 
         private int[] _averages;
 
-        private bool _locked;
-
+        private int _counter = 0;
+        private int _lockCounter = 0;
         public bool Generate(byte[] ledArray)
         {
-            if (_locked)
+            if (Interlocked.Increment(ref _counter) < 10)
             {
                 return false;
             }
-            _locked = true;
+
+            if (Interlocked.Increment(ref _lockCounter) != 1)
+            {
+                return false;
+            }
+            Interlocked.Exchange(ref _counter, 0);
 
             CaptureScreen();
 
@@ -148,7 +154,7 @@ namespace AdaLightNetShell.Generators
                 }
             }
 
-            _locked = false;
+            Interlocked.Exchange(ref _lockCounter, 0);
             return true;
         }
 
@@ -194,10 +200,10 @@ namespace AdaLightNetShell.Generators
 
             _averages = new int[LedConstants.LED_ARRAY_SIZE];
 
-            var present_params = new PresentParameters();
-            present_params.Windowed = true;
-            present_params.SwapEffect = SwapEffect.Discard;
-            _device = new Device(new Direct3D(), 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, present_params);
+            var parameters = new PresentParameters();
+            parameters.Windowed = true;
+            parameters.SwapEffect = SwapEffect.Discard;
+            _device = new Device(new Direct3D(), 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, parameters);
             _surface = Surface.CreateOffscreenPlain(_device, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, Format.A8R8G8B8, Pool.Scratch); 
         }
     }
