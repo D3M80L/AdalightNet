@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using AdaLightNetShell.Infrastructure;
 using SlimDX.Direct3D9;
 using System.Threading;
 
@@ -14,6 +15,10 @@ namespace AdaLightNetShell.Generators
 
         private int _screenWidth;
         private int _screenHeight;
+
+        /// <summary>
+        /// How many bytes are hold for one line
+        /// </summary>
         private int _widthOffset;
         private int _screenBufferSize;
         private byte[] _screenBuffer;
@@ -143,10 +148,12 @@ namespace AdaLightNetShell.Generators
                 int avgPos = 0;
                 for (int boxId = 0; boxId < 25; boxId++)
                 {
+                    // calculate average color
                     ledArray[avgPos] = (byte)(_averages[avgPos] / _pixelsInBox);
                     ledArray[avgPos + 1] = (byte)(_averages[avgPos + 1] / _pixelsInBox);
                     ledArray[avgPos + 2] = (byte)(_averages[avgPos + 2] / _pixelsInBox);
 
+                    // clean averages for next use
                     _averages[avgPos] = 0;
                     _averages[++avgPos] = 0;
                     _averages[++avgPos] = 0;
@@ -160,7 +167,21 @@ namespace AdaLightNetShell.Generators
 
         public void Dispose()
         {
-            
+            try
+            {
+                _surface.Dispose();
+                _device.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
+            finally
+            {
+                _surface = null;
+                _device = null;
+                _averages = null;
+            }
         }
 
         private void CaptureScreen()
@@ -179,6 +200,7 @@ namespace AdaLightNetShell.Generators
         public void Initialize()
         {
             InternalInitialize();
+            Log.Info("Capturing screen.");
         }
         
         private void InternalInitialize()

@@ -4,6 +4,11 @@
         xmlns:local="clr-namespace:AdaLightNetShell.Controls"
         Icon="AdaNet.ico"
         Title="NET adalight client " Height="350" Width="525">
+    <Window.Resources>
+        <Style TargetType="CheckBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -24,15 +29,48 @@
                             <ComboBoxItem>Rainbow</ComboBoxItem>
                             <ComboBoxItem>Screen capture</ComboBoxItem>
                             <ComboBoxItem>Solid color</ComboBoxItem>
-                            <ComboBoxItem>Random color</ComboBoxItem>
+                            <ComboBoxItem>Random colors</ComboBoxItem>
+                            <ComboBoxItem>Linear gradient</ComboBoxItem>
+                            <ComboBoxItem>Linear rainbow</ComboBoxItem>
                         </ComboBox>
+                    </GroupBox>
+                    <GroupBox Header="Arduino">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0">COM port:</Label>
+                            <ComboBox Grid.Column="1" Grid.Row="0" SelectedItem="{Binding ArduinoPort}" ItemsSource="{Binding ComPorts}"/>
+
+                            <Button Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Click="ButtonBase_OnClick">Open</Button>
+                            <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Click="ArduinoClose_OnClick">Close</Button>
+                        </Grid>
                     </GroupBox>
                 </StackPanel>
             </Grid>
-            <local:AdaLedArray 
+            
+            <Grid
                 Grid.Row="0"
-                Grid.Column="1"
-                x:Name="LedArrayPreview" />
+                Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <local:AdaLedArray 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    x:Name="LedArrayPreview" />
+                <ListBox 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    ItemsSource="{Binding Logs}" />
+            </Grid>
         </Grid>
 
         <CheckBox Content="Display preview" Grid.Column="0" IsChecked="{Binding DisplayPreview}" Grid.Row="1"/>

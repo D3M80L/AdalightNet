@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -90,9 +90,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Generators\ILedGenerator.cs" />
+    <Compile Include="Generators\LinearGradientGenerator.cs" />
+    <Compile Include="Generators\LinearRainbowGenerator.cs" />
     <Compile Include="Generators\RainbowGenerator.cs" />
     <Compile Include="Generators\RandomColorsGenerator.cs" />
     <Compile Include="Generators\SolidColorGenerator.cs" />
+    <Compile Include="Infrastructure\Log.cs" />
     <Compile Include="Infrastructure\MinimizeToTray.cs" />
     <Compile Include="LedServices\ArduinoAdalightService.cs" />
     <Compile Include="LedServices\ILedService.cs" />
@@ -120,7 +123,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Generators\SlimDxScreenProcessor.cs" />
+    <Compile Include="Generators\SlimDxScreenGenerator.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

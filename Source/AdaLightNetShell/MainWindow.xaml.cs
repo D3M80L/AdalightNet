@@ -1,4 +1,9 @@
-﻿using AdaLightNetShell.Generators;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO.Ports;
+using System.Linq;
+using AdaLightNetShell.Generators;
 using AdaLightNetShell.Infrastructure;
 using AdaLightNetShell.LedServices;
 using System.Windows;
@@ -15,15 +20,34 @@ namespace AdaLightNetShell
         private bool _displayPreview;
         private int _selectedGenerator;
         private Processor _processor;
+
+        public ObservableCollection<string> Logs { get; private set; }
+
+        public List<string> ComPorts { get; private set; }
+
+        public string ArduinoPort
+        {
+            get { return _arduinoPort; }
+            set
+            {
+                _arduinoPort = value;
+                ArduinoAdalightService.PortName = _arduinoPort;
+            }
+        }
+
         public MainWindow()
         {
+            Log.Register(LogHandler);
+            Logs = new ObservableCollection<string>();
+            ComPorts = SerialPort.GetPortNames().ToList();
+            ArduinoPort = ComPorts.FirstOrDefault();
             DataContext = this;
             InitializeComponent();
 
             var ledGenerator = new SlimDxScreenGenerator();
             //var ledGenerator = new RainbowGenerator();
             ledGenerator.Initialize();
-            
+
             var wrapService = new WrapService();
             wrapService.Add(_arduinoAdalightService);
 
@@ -36,6 +60,31 @@ namespace AdaLightNetShell
             MinimizeToTray.Enable(this);
         }
 
+        private void LogHandler(string message)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                Logs.Insert(0, message);
+                if (Logs.Count > 2000)
+                {
+                    Logs.Clear();
+                }
+            }));
+        }
+
+        private Dictionary<int, Func<ILedGenerator>> _generators = new Dictionary<int, Func<ILedGenerator>>
+        {
+            {0, ()=>null},
+            {1, ()=>new RainbowGenerator()},
+            {2, ()=>new SlimDxScreenGenerator()},
+            {3, ()=>new SolidColorGenerator()},
+            {4, ()=>new RandomColorsGenerator()},
+            {5, ()=>new LinearGradientGenerator()},
+            {6, ()=>new LinearRainbowGenerator()},
+        };
+
+        private string _arduinoPort;
+
         public int SelectedGenerator
         {
             get { return _selectedGenerator; }
@@ -43,43 +92,7 @@ namespace AdaLightNetShell
             {
                 _selectedGenerator = value;
 
-                if (_selectedGenerator == 0)
-                {
-                    _processor.Generator = null;
-                    return;
-                }
-
-                if (_selectedGenerator == 1)
-                {
-                    var generator = new RainbowGenerator();
-                    generator.Initialize();
-                    _processor.Generator = generator;
-                    return;
-                }
-
-                if (_selectedGenerator == 2)
-                {
-                    var generator = new SlimDxScreenGenerator();
-                    generator.Initialize();
-                    _processor.Generator = generator;
-                    return;
-                }
-
-                if (_selectedGenerator == 3)
-                {
-                    var generator = new SolidColorGenerator();
-                    generator.Initialize();
-                    _processor.Generator = generator;
-                    return;
-                }
-
-                if (_selectedGenerator == 4)
-                {
-                    var generator = new RandomColorsGenerator();
-                    generator.Initialize();
-                    _processor.Generator = generator;
-                    return;
-                }
+                _processor.Generator = _generators[_selectedGenerator]();
             }
         }
 
@@ -93,6 +106,16 @@ namespace AdaLightNetShell
 
                 LedArrayPreview.Visibility = _ledMatrixPreviewService.Enable ? Visibility.Visible : Visibility.Collapsed;
             }
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            _arduinoAdalightService.Run();
+        }
+
+        private void ArduinoClose_OnClick(object sender, RoutedEventArgs e)
+        {
+            _arduinoAdalightService.Stop();
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using AdaLightNetShell.Generators;
+using AdaLightNetShell.Infrastructure;
 using AdaLightNetShell.LedServices;
 
 namespace AdaLightNetShell
@@ -10,6 +12,7 @@ namespace AdaLightNetShell
         private ILedGenerator _ledGenerator;
         private ILedService _ledService;
         private byte[] _ledArray = new byte[LedConstants.LED_ARRAY_SIZE];
+        private ILedGenerator _generator;
 
         public void Run(ILedService ledService)
         {
@@ -18,18 +21,40 @@ namespace AdaLightNetShell
             _timer.Change(200, LedConstants.TICK_EVERY_MILISEC);
         }
 
-        public ILedGenerator Generator { get; set; }
+        public ILedGenerator Generator
+        {
+            get { return _generator; }
+            set
+            {
+                if (_generator != null)
+                {
+                    _generator.Dispose();
+                }
+                _generator = value;
+                if (_generator != null)
+                {
+                    _generator.Initialize();
+                }
+            }
+        }
 
         private void Tick(object state)
         {
-            var generator = Generator;
-            if (generator == null)
+            try
             {
-                return;
+                var generator = Generator;
+                if (generator == null)
+                {
+                    return;
+                }
+                if (generator.Generate(_ledArray))
+                {
+                    _ledService.Display(_ledArray);
+                }
             }
-            if (generator.Generate(_ledArray))
+            catch (Exception ex)
             {
-                _ledService.Display(_ledArray);
+                Log.Error(ex.Message);
             }
         }
     }

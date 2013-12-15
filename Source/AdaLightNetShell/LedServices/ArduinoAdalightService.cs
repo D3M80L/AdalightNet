@@ -3,6 +3,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdaLightNetShell.Infrastructure;
 
 namespace AdaLightNetShell.LedServices
 {
@@ -12,8 +13,6 @@ namespace AdaLightNetShell.LedServices
         private static byte[] _adaHeader;
 
         public static string PortName { get; set; }
-
-        public string LastMessage { get; private set; }
 
         static ArduinoAdalightService()
         {
@@ -33,18 +32,49 @@ namespace AdaLightNetShell.LedServices
 
         public ArduinoAdalightService()
         {
+
+        }
+
+        public void Stop()
+        {
             try
             {
-                _serialPort = new SerialPort(PortName, 115200);
-                _serialPort.Open();
+                if (_serialPort != null)
+                {
+                    _serialPort.Close();
+                    _serialPort.Dispose();
+                    _serialPort = null;
+                }
             }
             catch (Exception ex)
             {
-                LastMessage = ex.Message;
+                Log.Error(ex.Message);
             }
         }
+
+        public void Run()
+        {
+            try
+            {
+                Stop();
+
+                var serialPort = new SerialPort(PortName, 115200);
+                serialPort.Open();
+
+                _serialPort = serialPort;
+
+                Log.Info(string.Format("Port {0} opened for communication.", PortName));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }            
+        }
+
         public void Display(byte[] ledArray)
         {
+            if (_serialPort == null) return;
+
             try
             {
                 _serialPort.Write(_adaHeader, 0, 6);
@@ -52,7 +82,8 @@ namespace AdaLightNetShell.LedServices
             }
             catch (Exception ex)
             {
-                LastMessage = ex.Message;
+                Log.Error(ex.Message);
+                Stop();
             }
         }
     }
