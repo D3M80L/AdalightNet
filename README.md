@@ -7,9 +7,20 @@ This .NET client implements a Rainbow sample from Adafruits examples (http://lea
 
 ![Alt text](https://raw.github.com/D3M80L/AdalightNet/master/Documentation/DemoImages/FirstCommit.png "Screen capture example")
 
-What is more:
+**What is more**
 * Display preview (arduino and adafruit hardware is not necessary)
-* DirectX screen capture (works also in games - for that the game must be windowed).
+* DirectX screen capture (works also in games - the game must be windowed).
+* Some simple examples like linear gradient and solid color generator
  
 Still the project is not final - there are many bugs and not so clean code - but it works on my machine ;)
 
+**Requirements**
+* .NET 4
+
+**Executables**
+
+A zipped offline click once installer is available on my SkyDrive http://sdrv.ms/1bQWi24
+
+
+**Checked under**
+Windows 8.1
