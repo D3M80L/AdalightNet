@@ -15,7 +15,7 @@ namespace AdaLightNetShell.LedServices
             {
                 try
                 {
-                    LedArray.Dispatcher.Invoke(() =>
+                    LedArray.Dispatcher.Invoke(new Action(() =>
                     {
                         try
                         {
@@ -27,16 +27,9 @@ namespace AdaLightNetShell.LedServices
                                 ++arrayHeader;
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            // TODO:
-                        }
-                    });
-                }
-                catch
-                {
-                    // TODO:
-                }
+                        catch { }
+                    }));
+                } catch{ }
             }
         }
     }

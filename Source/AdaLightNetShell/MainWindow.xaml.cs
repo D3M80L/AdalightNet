@@ -44,10 +44,6 @@ namespace AdaLightNetShell
             DataContext = this;
             InitializeComponent();
 
-            var ledGenerator = new SlimDxScreenGenerator();
-            //var ledGenerator = new RainbowGenerator();
-            ledGenerator.Initialize();
-
             var wrapService = new WrapService();
             wrapService.Add(_arduinoAdalightService);
 
