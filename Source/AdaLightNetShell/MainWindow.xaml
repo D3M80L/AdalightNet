@@ -60,17 +60,28 @@
                 Grid.Row="0"
                 Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <local:AdaLedArray 
                     Grid.Row="0"
                     Grid.Column="0"
+                    Visibility="Collapsed"
                     x:Name="LedArrayPreview" />
+                
+                <GridSplitter Grid.Column="0" Grid.Row="1" Height="2" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black"/>
+                
                 <ListBox 
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="0"
-                    ItemsSource="{Binding Logs}" />
+                    ItemsSource="{Binding Logs}">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="ClearLogs" Click="ClearLogs_OnClick" Header="Clear" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
             </Grid>
         </Grid>
 

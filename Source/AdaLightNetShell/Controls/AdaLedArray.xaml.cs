@@ -21,9 +21,9 @@ namespace AdaLightNetShell.Controls
     /// </summary>
     public partial class AdaLedArray : UserControl
     {
-        private Rectangle[] _ledRectangles = new Rectangle[LedConstants.LED_COUNT];
+        private LedControl[] _leds = new LedControl[LedConstants.LED_COUNT];
 
-        private int[][] _ledGridPosition = new[]
+        private int[][] _ledGridPosition =
         {
             new [] { 3,5 },
             new [] { 2,5 },
@@ -55,13 +55,14 @@ namespace AdaLightNetShell.Controls
         public AdaLedArray()
         {
             InitializeComponent();
+            DisplayRgbTable.IsChecked = true;
+            FreezeRefresh.IsChecked = false;
 
             for (int i = 0; i < LedConstants.LED_COUNT; ++i)
             {
-                var rectangle = _ledRectangles[i] = new Rectangle();
+                var rectangle = _leds[i] = new LedControl();
                 rectangle.SetValue(Grid.ColumnProperty, _ledGridPosition[i][0]);
                 rectangle.SetValue(Grid.RowProperty, _ledGridPosition[i][1]);
-                rectangle.Fill = new SolidColorBrush();
 
                 ArrayGrid.Children.Add(rectangle);
             }
@@ -69,7 +70,25 @@ namespace AdaLightNetShell.Controls
 
         public void SetLedColor(byte ledId, byte r, byte g, byte b)
         {
-            (_ledRectangles[ledId].Fill as SolidColorBrush).Color = Color.FromRgb(r, g, b);
+            _leds[ledId].SetLedColor(r,g,b);
+        }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            foreach (var led in _leds)
+            {
+                led.ValueTableVisibility = DisplayRgbTable.IsChecked
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+
+        private void RefreshFreeze_OnClick(object sender, RoutedEventArgs e)
+        {
+            foreach (var led in _leds)
+            {
+                led.FreezeRefresh = FreezeRefresh.IsChecked;
+            }
         }
     }
 }

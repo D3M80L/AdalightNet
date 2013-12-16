@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Adalight capture")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("D3M80L")]
 [assembly: AssemblyProduct("AdaLightNetShell")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]

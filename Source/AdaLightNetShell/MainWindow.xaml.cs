@@ -114,5 +114,10 @@ namespace AdaLightNetShell
         {
             _arduinoAdalightService.Stop();
         }
+
+        private void ClearLogs_OnClick(object sender, RoutedEventArgs e)
+        {
+            Logs.Clear();
+        }
     }
 }
