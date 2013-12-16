@@ -77,6 +77,7 @@ namespace AdaLightNetShell
             {4, ()=>new RandomColorsGenerator()},
             {5, ()=>new LinearGradientGenerator()},
             {6, ()=>new LinearRainbowGenerator()},
+            {7, ()=>new CurrentWallpaperGenerator()},
         };
 
         private string _arduinoPort;

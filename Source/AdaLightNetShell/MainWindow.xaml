@@ -32,6 +32,7 @@
                             <ComboBoxItem>Random colors</ComboBoxItem>
                             <ComboBoxItem>Linear gradient</ComboBoxItem>
                             <ComboBoxItem>Linear rainbow</ComboBoxItem>
+                            <ComboBoxItem>Current wallpaper</ComboBoxItem>
                         </ComboBox>
                     </GroupBox>
                     <GroupBox Header="Arduino">

@@ -18,6 +18,7 @@ namespace AdaLightNetShell
         {
             _ledService = ledService;
             _timer = new Timer(Tick);
+            GC.KeepAlive(_timer);
             _timer.Change(200, LedConstants.TICK_EVERY_MILISEC);
         }
 
