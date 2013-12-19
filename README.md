@@ -11,6 +11,7 @@ This .NET client implements a Rainbow sample from Adafruits examples (http://lea
 * Display preview (arduino and adafruit hardware is not necessary)
 * DirectX screen capture (works also in games - the game must be windowed).
 * Some simple examples like linear gradient and solid color generator
+* Grabbing color from currently displayed wallpaper
  
 Still the project is not final - there are many bugs and not so clean code - but it works on my machine ;)
 
@@ -24,3 +25,5 @@ A zipped offline click once installer is available on my SkyDrive http://sdrv.ms
 
 **Checked under**
 Windows 8.1
+
+![Alt text](https://raw.github.com/D3M80L/AdalightNet/master/Documentation/DemoImages/GrabColorsFromCurrentWallpaper.png "Wallpaper capture example with context menu options.")
