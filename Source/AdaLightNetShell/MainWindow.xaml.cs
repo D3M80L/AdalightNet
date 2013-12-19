@@ -78,6 +78,7 @@ namespace AdaLightNetShell
             {5, ()=>new LinearGradientGenerator()},
             {6, ()=>new LinearRainbowGenerator()},
             {7, ()=>new CurrentWallpaperGenerator()},
+            {8, ()=>new SlimDxThinEdgeScreenGenerator()},
         };
 
         private string _arduinoPort;

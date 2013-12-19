@@ -27,14 +27,21 @@ namespace AdaLightNetShell
             get { return _generator; }
             set
             {
-                if (_generator != null)
+                try
                 {
-                    _generator.Dispose();
+                    if (_generator != null)
+                    {
+                        _generator.Dispose();
+                    }
+                    _generator = value;
+                    if (_generator != null)
+                    {
+                        _generator.Initialize();
+                    }
                 }
-                _generator = value;
-                if (_generator != null)
+                catch (Exception ex)
                 {
-                    _generator.Initialize();
+                    Log.Error(ex.Message);
                 }
             }
         }

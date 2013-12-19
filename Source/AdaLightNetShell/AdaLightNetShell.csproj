@@ -25,7 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -40,6 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -99,8 +100,10 @@
     <Compile Include="Generators\LinearRainbowGenerator.cs" />
     <Compile Include="Generators\RainbowGenerator.cs" />
     <Compile Include="Generators\RandomColorsGenerator.cs" />
+    <Compile Include="Generators\SlimDxThinEdgeScreenGenerator.cs" />
     <Compile Include="Generators\SolidColorGenerator.cs" />
     <Compile Include="Infrastructure\Log.cs" />
+    <Compile Include="Infrastructure\Metrics.cs" />
     <Compile Include="Infrastructure\MinimizeToTray.cs" />
     <Compile Include="LedServices\ArduinoAdalightService.cs" />
     <Compile Include="LedServices\ILedService.cs" />

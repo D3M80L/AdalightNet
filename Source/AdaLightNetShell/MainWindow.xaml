@@ -27,12 +27,13 @@
                         <ComboBox SelectedIndex="{Binding SelectedGenerator}">
                             <ComboBoxItem>None</ComboBoxItem>
                             <ComboBoxItem>Rainbow</ComboBoxItem>
-                            <ComboBoxItem>Screen capture</ComboBoxItem>
+                            <ComboBoxItem>Screen capture (Each block equal)</ComboBoxItem>
                             <ComboBoxItem>Solid color</ComboBoxItem>
                             <ComboBoxItem>Random colors</ComboBoxItem>
                             <ComboBoxItem>Linear gradient</ComboBoxItem>
                             <ComboBoxItem>Linear rainbow</ComboBoxItem>
-                            <ComboBoxItem>Current wallpaper</ComboBoxItem>
+                            <ComboBoxItem>Current wallpaper(Each block equal)</ComboBoxItem>
+                            <ComboBoxItem>Screen capture (32pix edge)</ComboBoxItem>
                         </ComboBox>
                     </GroupBox>
                     <GroupBox Header="Arduino">
